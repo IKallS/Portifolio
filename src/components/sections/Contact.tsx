@@ -11,7 +11,7 @@ export function Contact() {
     {
       icon: Mail,
       title: "Email",
-      value: "mirandakalyston@email.com",
+      value: "mirandakalyston@gmail.com",
     },
     {
       icon: Phone,
@@ -21,7 +21,7 @@ export function Contact() {
     {
       icon: MapPin,
       title: "Localização",
-      value: "Charqueadas, Brasil",
+      value: "Charqueadas RS, Brasil",
     },
   ];
 
@@ -123,7 +123,7 @@ export function Contact() {
                 icon={<Send className="w-4 h-4" />}
                 label="Enviar Mensagem"
                 className="flex justify-center items-center gap-3 text-sm cursor-pointer rounded-lg p-3 w-full bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90 text-[hsl(var(--primary))]-foreground font-semibold shadow-lg shadow-[hsl(var(--primary))]/50 hover:shadow-[hsl(var(--primary))]/70 transition-all group/btn relative overflow-hidden"
-                onClick={() => {}}
+                onClick={() => { }}
                 type="submit"
               />
             </form>

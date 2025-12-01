@@ -3,38 +3,15 @@ import { Button } from "../ui/Button";
 
 export function Projects() {
   const projects = [
-    {
-      title: "E-commerce Platform",
-      description:
-        "Plataforma completa de e-commerce com carrinho, pagamentos e dashboard admin",
-      technologies: ["React", "Node.js", "PostgreSQL"],
-      githubUrl: "#",
-      demoUrl: "#",
-    },
-    {
-      title: "Task Manager App",
-      description:
-        "Aplicativo de gerenciamento de tarefas com colaboração em tempo real",
-      technologies: ["Next.js", "TypeScript", "Supabase"],
-      githubUrl: "#",
-      demoUrl: "#",
-    },
+
     {
       title: "Portfolio Dashboard",
       description:
         "Dashboard para visualização de métricas e analytics em tempo real",
       technologies: ["React", "Tailwind", "Chart.js"],
-      githubUrl: "#",
-      demoUrl: "#",
-    },
-    {
-      title: "API Rest",
-      description:
-        "API RESTful escalável com autenticação JWT e documentação Swagger",
-      technologies: ["Node.js", "Express", "MongoDB"],
-      githubUrl: "#",
-      demoUrl: "#",
-    },
+      githubUrl: "https://github.com/IKallS/Portifolio.git",
+      demoUrl: "https://portifolio-kalyston.vercel.app/",
+    }
   ];
 
   return (

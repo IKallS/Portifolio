@@ -8,20 +8,17 @@ export function Skills() {
         "React",
         "TypeScript",
         "Next.js",
-        "Tailwind CSS",
-        "Vue.js",
-        "Framer Motion",
+        "Tailwind CSS"
       ],
     },
     {
       title: "Backend",
       skills: [
         "Node.js",
-        "Express",
+        "fastify",
         "PostgreSQL",
         "MongoDB",
-        "REST APIs",
-        "GraphQL",
+        "REST APIs"
       ],
     },
     {
