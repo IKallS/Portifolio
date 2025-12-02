@@ -157,7 +157,7 @@ export function Hero() {
 
           <div className="flex gap-4 justify-center">
             <a
-              href="https://github.com"
+              href="https://github.com/IKallS"
               target="_blank"
               rel="noopener noreferrer"
               className="w-12 h-12 rounded-full bg-secondary/40 hover:bg-[hsl(var(--primary))]/12 border border-border hover:border-[hsl(var(--primary))]/30 flex items-center justify-center transition-all group relative overflow-hidden"
@@ -166,7 +166,7 @@ export function Hero() {
               <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))]/12 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/kalystonmiranda/"
               target="_blank"
               rel="noopener noreferrer"
               className="w-12 h-12 rounded-full bg-secondary/40 hover:bg-[hsl(var(--primary))]/12 border border-border hover:border-[hsl(var(--primary))]/30 flex items-center justify-center transition-all group relative overflow-hidden"
@@ -175,7 +175,7 @@ export function Hero() {
               <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))]/12 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </a>
             <a
-              href="mailto:your@email.com"
+              href="mailto:mirandakalyston@gmail.com"
               className="w-12 h-12 rounded-full bg-secondary/40 hover:bg-[hsl(var(--primary))]/12 border border-border hover:border-[hsl(var(--primary))]/30 flex items-center justify-center transition-all group relative overflow-hidden"
             >
               <Mail className="w-5 h-5 text-foreground/60 group-hover:text-[hsl(var(--primary))] transition-colors relative z-10" />

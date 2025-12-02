@@ -13,7 +13,7 @@ export function Footer() {
 
           <div className="flex gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/IKallS"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-secondary/50 hover:bg-[hsl(var(--primary))]/20 border border-border hover:border-[hsl(var(--primary))]/50 flex items-center justify-center transition-all group"
@@ -21,7 +21,7 @@ export function Footer() {
               <Github className="w-5 h-5 text-foreground/80 group-hover:text-[hsl(var(--primary))] transition-colors" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/kalystonmiranda/"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-secondary/50 hover:bg-[hsl(var(--primary))]/20 border border-border hover:border-[hsl(var(--primary))]/50 flex items-center justify-center transition-all group"
@@ -29,7 +29,7 @@ export function Footer() {
               <Linkedin className="w-5 h-5 text-foreground/80 group-hover:text-[hsl(var(--primary))] transition-colors" />
             </a>
             <a
-              href="mailto:mirandakalyston@email.com"
+              href="mailto:mirandakalyston@gmail.com"
               className="w-10 h-10 rounded-full bg-secondary/50 hover:bg-[hsl(var(--primary))]/20 border border-border hover:border-[hsl(var(--primary))]/50 flex items-center justify-center transition-all group"
             >
               <Mail className="w-5 h-5 text-foreground/80 group-hover:text-[hsl(var(--primary))] transition-colors" />
