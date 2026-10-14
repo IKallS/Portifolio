@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# Portfólio Kalyston Miranda
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um único portfólio com duas versões, feito com Vite, React, TypeScript e Tailwind CSS. Cada página é uma entrada HTML estática (Vite multipágina), então todas as URLs abrem diretamente e aguentam refresh em qualquer hospedagem estática.
 
-Currently, two official plugins are available:
+## Entradas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| URL | Conteúdo | Código |
+|---|---|---|
+| `/` (`index.html`) | Escolha entre Kalyston Dev e Kalyston Design | `src/chooser-main.tsx`, `src/chooser.css` |
+| `/dev.html` | Portfólio de desenvolvimento (visual de player de música, com trilha pelo player do Spotify) | `src/dev/` |
+| `/design.html` | Portfólio UX/UI: abertura, lista de projetos, sobre, atuação e contato | `src/main.tsx`, `src/App.tsx`, `src/style.css` |
+| `/case-tmw-connect.html` | Case TMW Connect | `src/data/cases/tmwConnect.ts` |
+| `/case-la-vamos-nos.html` | Case Lá Vamos Nós | `src/data/cases/laVamosNos.ts` |
+| `/case-tmwpix.html` | Case TMWPIX (celular e TV) | `src/data/cases/tmwpix.ts` |
+| `/case-dashboard-cartao-credito.html` | Case Dashboard de Cartão de Crédito (painel web interno) | `src/data/cases/dashboardCartaoCredito.ts` |
 
-## React Compiler
+Todos os cases usam o mesmo componente (`src/components/sections/CaseStudy.tsx`) e a mesma página (`src/pages/CasePage.tsx`), carregados por `src/case-main.tsx`. Cada HTML de case indica qual conteúdo mostrar em `<div id="root" data-case="<slug>">`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Imagens: `public/cases/tmw-connect/` (capturas públicas da App Store) `public/cases/la-vamos-nos/` (capturas reais do app no Android, versão de testes, com localização borrada) `public/cases/tmwpix/` (capturas públicas da Google Play) e `public/cases/dashboard-cartao-credito/` (painel interno renderizado com dados fictícios). Telas em paisagem, como as de TV, declaram `size` próprio e ganham layout largo.
 
-## Expanding the ESLint configuration
+## Como adicionar um novo case Design
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Escreva o conteúdo em `src/data/cases/<nome>.ts` (tipo `CaseData`, veja os existentes) e registre-o em `src/data/cases/index.ts`.
+2. Copie `case-la-vamos-nos.html` para `case-<slug>.html`, ajustando título, descrição e `data-case`.
+3. Registre a entrada em `vite.config.ts` (`build.rollupOptions.input`).
+4. Coloque as imagens em `public/cases/<slug>/`.
+5. Acrescente o projeto em `src/data/designProjects.ts` com `published: true`. O cartão aparece sozinho na lista de `design.html`. Projetos sem conteúdo pronto ficam fora da lista (ou com `published: false`); não há cartões "em breve".
+6. Acrescente um teste em `tests/portfolio.spec.ts` que abra a URL direta e recarregue.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Comandos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm ci
+npm run dev        # desenvolvimento
+npm run build      # typecheck + build em dist/
+npm run lint
+npm run test:e2e   # Playwright contra o build (preview na porta 4173)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Se já houver um servidor na porta 4173, o Playwright o reutiliza; encerre-o antes para testar o build atualizado.
