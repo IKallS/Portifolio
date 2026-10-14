@@ -1,36 +1,24 @@
+import type { Ref } from "react";
+
 interface HamburgerButtonProps {
   isOpen: boolean;
   onClick: () => void;
   className?: string;
+  buttonRef?: Ref<HTMLButtonElement>;
 }
 
-export function HambugerButton({
-  isOpen,
-  onClick,
-  className,
-}: HamburgerButtonProps) {
+export function HambugerButton({ isOpen, onClick, className = "", buttonRef }: HamburgerButtonProps) {
   return (
     <button
+      ref={buttonRef}
+      type="button"
+      aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+      aria-expanded={isOpen}
+      aria-controls={isOpen ? "mobile-navigation" : undefined}
       onClick={onClick}
-      className={`flex flex-col justify-center items-center gap-[4px] w-8 h-8 group ${className}`}
+      className={className}
     >
-      <span
-        className={`block h-[2px] w-6 rounded-full bg-white transition-all duration-300 ${
-          isOpen ? "rotate-45 translate-y-[6px]" : ""
-        }`}
-      />
-
-      <span
-        className={`block h-[2px] w-6 rounded-full bg-white transition-all duration-300 ${
-          isOpen ? "opacity-0" : "opacity-100"
-        }`}
-      />
-
-      <span
-        className={`block h-[2px] w-6 rounded-full bg-white transition-all duration-300 ${
-          isOpen ? "-rotate-45 -translate-y-[6px]" : ""
-        }`}
-      />
+      <span aria-hidden="true">{isOpen ? "✕" : "☰"}</span>
     </button>
   );
 }

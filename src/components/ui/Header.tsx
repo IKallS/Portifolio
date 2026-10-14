@@ -1,85 +1,84 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HambugerButton } from "./HambugerButton";
 
-export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+const homeNavItems: NavItem[] = [
+  { label: "Início", href: "#inicio" },
+  { label: "Projetos", href: "#projetos" },
+  { label: "Sobre", href: "#sobre" },
+  { label: "Atuação", href: "#atuacao" },
+  { label: "Contato", href: "#contato" },
+];
+
+interface HeaderProps {
+  navItems?: NavItem[];
+  brandHref?: string;
+}
+
+export function Header({ navItems = homeNavItems, brandHref = "#inicio" }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    const desktop = window.matchMedia("(min-width: 901px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMobileMenuOpen(false);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
   }, []);
 
-  const navItems = [
-    { label: "Início", href: "#hero" },
-    { label: "Sobre", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projetos", href: "#projects" },
-    { label: "Contato", href: "#contact" },
-  ];
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isMobileMenuOpen]);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
-    }
+  const selectMobileLink = (href: string) => {
+    setIsMobileMenuOpen(false);
+    if (!href.startsWith("#")) return;
+    requestAnimationFrame(() => {
+      const destination = document.querySelector<HTMLElement>(href);
+      if (destination) {
+        destination.tabIndex = -1;
+        destination.focus({ preventScroll: true });
+      }
+    });
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-screen px-4 outline-none ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-3xl  border"
-          : "bg-transparent border-b border-transparent"
-      }`}
-    >
-      <div className=" mx-auto px-4 py-4 flex items-center justify-between ">
-        <div className="text-2xl font-bold gradient-text">
-          {"<K-miranda />"}
-        </div>
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <button
-              key={item.href}
-              onClick={() => scrollToSection(item.href)}
-              className="text-foreground/80 hover:text-primary transition-colors relative group"
-            >
-              {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[hsl(var(--primary))] to-blue-400 transition-all group-hover:w-full" />
-            </button>
-          ))}
+    <header className="site-header">
+      <div className="header-inner section-shell">
+        <a className="brand" href={brandHref} aria-label="Kalyston Miranda, voltar ao início do portfólio Design">KM<span>.</span></a>
+        <nav className="desktop-nav" aria-label="Navegação principal">
+          {navItems.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
         </nav>
-
+        <a className="portfolio-switch" href="./index.html">Escolher portfólio</a>
         <HambugerButton
+          buttonRef={toggleRef}
           isOpen={isMobileMenuOpen}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden"
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+          className="mobile-toggle"
         />
       </div>
-
-      {/* Mobile Menu */}
-      <div>
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border">
-            <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-left text-foreground/80 hover:text-primary transition-colors py-2"
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-        )}
-      </div>
+      {isMobileMenuOpen && (
+        <nav id="mobile-navigation" className="mobile-nav" aria-label="Navegação móvel">
+          {navItems.map((item) => (
+            <a href={item.href} key={item.href} onClick={() => selectMobileLink(item.href)}>{item.label}</a>
+          ))}
+          <a href="./index.html">Escolher portfólio</a>
+        </nav>
+      )}
     </header>
   );
 }

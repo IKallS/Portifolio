@@ -1,199 +1,56 @@
-// import { Button } from "@/components/ui/button";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  ChevronDown,
-  Sparkles,
-  Wand2,
-} from "lucide-react";
-import { Button } from "../ui/Button";
-import LiquidEther from "../effects/LiquidEther";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { FigmaCursor } from "../ui/FigmaCursor";
+
+// Telas dos apps como frames no canvas, cada uma numa profundidade (velocidade de parallax).
+const frames = [
+  { src: "./dev/shots/tmw-connect-inicio.jpg", label: "TMW Connect / Início", speed: 0.18, depth: 18 },
+  { src: "./dev/shots/la-vamos-nos-explorar.jpg", label: "Lá Vamos Nós / Explorar", speed: 0.32, depth: 30 },
+];
 
 export function Hero() {
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const title = useRef<HTMLHeadingElement>(null);
+  const [size, setSize] = useState("");
+
+  // A etiqueta de medidas mostra o tamanho real do título, como o Figma mostra o do frame selecionado.
+  useEffect(() => {
+    const element = title.current;
+    if (!element) return;
+    const observer = new ResizeObserver(() => setSize(`${Math.round(element.offsetWidth)} × ${Math.round(element.offsetHeight)}`));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section
-      id="hero"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 "
-    >
-      <div className="w-full absolute  h-full">
-        {/* <Particles
-          particleColors={["#ffffff", "#ffffff"]}
-          particleCount={200}
-          particleSpread={10}
-          speed={0.1}
-          particleBaseSize={100}
-          moveParticlesOnHover={true}
-          alphaParticles={false}
-          disableRotation={false}
-        /> */}
-        <LiquidEther
-          colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
-          mouseForce={20}
-          cursorSize={100}
-          isViscous={false}
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.5}
-          isBounce={false}
-          autoDemo={true}
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          takeoverDuration={0.25}
-          autoResumeDelay={3000}
-          autoRampDuration={0.6}
-        />
-      </div>
-      {/* Animated magical background - bem sutil */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[hsl(var(--primary))]/20 rounded-full blur-[140px] animate-levitate" />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/12 rounded-full blur-[140px] animate-float"
-          style={{ animationDelay: "2s" }}
-        />
-        <div
-          className="absolute top-1/2 right-1/3 w-64 h-64 bg-accent/12 rounded-full blur-[120px] animate-levitate"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
-
-      {/* Floating sparkles - muito sutis */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* <Sparkles
-          className="absolute top-1/4 left-1/4 w-6 h-6 text-[hsl(var(--primary))]/40 animate-twinkle"
-          style={{ animationDelay: "0s" }}
-        />
-        <Sparkles
-          className="absolute top-1/3 right-1/3 w-4 h-4 text-purple-400/35 animate-twinkle"
-          style={{ animationDelay: "1s" }}
-        />
-        <Sparkles
-          className="absolute bottom-1/3 left-1/3 w-5 h-5 text-[hsl(var(--primary))]/40 animate-twinkle"
-          style={{ animationDelay: "2s" }}
-        />
-        <Sparkles
-          className="absolute top-2/3 right-1/4 w-4 h-4 text-accent/35 animate-twinkle"
-          style={{ animationDelay: "1.5s" }}
-        /> */}
-        {/* <Wand2
-          className="absolute top-1/2 left-1/5 w-8 h-8 text-[hsl(var(--primary))]/15 animate-levitate"
-          style={{ animationDelay: "0.5s" }}
-        /> */}
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-6 flex items-center justify-center gap-2">
-            <Sparkles className="w-4 h-4 text-[hsl(var(--primary))]" />
-            <span className="text-[hsl(var(--primary))] text-sm font-semibold tracking-wider uppercase">
-              Code is the most powerful magic
-            </span>
-            <Sparkles className="w-4 h-4 text-[hsl(var(--primary))]" />
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="gradient-text inline-flex items-center gap-3">
-              Kalyston
-              <Wand2 className="w-12 h-12 md:w-16 md:h-16 inline animate-levitate" />
-            </span>
-            <br />
-            <span className="text-foreground">Miranda</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-[hsl(var(--muted-foreground))] mb-8 max-w-2xl mx-auto">
-            Transformando ideias em experiências digitais incríveis.
-            <br />
-            Especializado em criar soluções web modernas e escaláveis.
-          </p>
-
-          <div className="flex flex-wrap gap-4 justify-center mb-12 ">
-            <Button
-              icon={<Sparkles className="w-4 h-4" />}
-              label={"Ver Projetos"}
-              onClick={() => scrollToSection("#projects")}
-              className={
-                "flex justify-center items-center rouded-lg rounded-lg gap-3 p-2 relative overflow-hidden bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90 text-[hsl(var(--primary))]-foreground font-semibold px-8 shadow-lg shadow-[hsl(var(--primary))]/30 hover:shadow-[hsl(var(--primary))]/50 transition-all group "
-              }
-            />
-
-            {/* <Button
-              size="lg"
-              onClick={() => scrollToSection("#projects")}
-              className="relative overflow-hidden bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90 text-[hsl(var(--primary))]-foreground font-semibold px-8 shadow-lg shadow-[hsl(var(--primary))]/30 hover:shadow-[hsl(var(--primary))]/50 transition-all group"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
-                Ver Projetos
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-            </Button> */}
-
-            <Button
-              icon={<Mail className="w-4 h-4" />}
-              label={"Contato"}
-              onClick={() => scrollToSection("#contact")}
-              className={
-                "flex justify-center items-center rouded-lg  rounded-lg gap-3 p-2  relative overflow-hidden border-2 border-[hsl(var(--primary))]/30 hover:border-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/8 font-semibold px-8 ornate-border"
-              }
-            />
-
-            {/* <Button
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection("#contact")}
-              className="border-2 border-[hsl(var(--primary))]/30 hover:border-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/8 font-semibold px-8 ornate-border"
-            >
-              Entrar em Contato
-            </Button> */}
-          </div>
-
-          <div className="flex gap-4 justify-center">
-            <a
-              href="https://github.com/IKallS"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-secondary/40 hover:bg-[hsl(var(--primary))]/12 border border-border hover:border-[hsl(var(--primary))]/30 flex items-center justify-center transition-all group relative overflow-hidden"
-            >
-              <Github className="w-5 h-5 text-foreground/60 group-hover:text-[hsl(var(--primary))] transition-colors relative z-10" />
-              <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))]/12 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/kalystonmiranda/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-secondary/40 hover:bg-[hsl(var(--primary))]/12 border border-border hover:border-[hsl(var(--primary))]/30 flex items-center justify-center transition-all group relative overflow-hidden"
-            >
-              <Linkedin className="w-5 h-5 text-foreground/60 group-hover:text-[hsl(var(--primary))] transition-colors relative z-10" />
-              <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))]/12 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-            <a
-              href="mailto:mirandakalyston@gmail.com"
-              className="w-12 h-12 rounded-full bg-secondary/40 hover:bg-[hsl(var(--primary))]/12 border border-border hover:border-[hsl(var(--primary))]/30 flex items-center justify-center transition-all group relative overflow-hidden"
-            >
-              <Mail className="w-5 h-5 text-foreground/60 group-hover:text-[hsl(var(--primary))] transition-colors relative z-10" />
-              <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))]/12 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-          </div>
+    <section id="inicio" className="hero section-shell dz-hero" aria-labelledby="hero-title">
+      <div className="hero-copy">
+        <p className="eyebrow">Kalyston Miranda · Portfólio de UX/UI</p>
+        <div className="dz-selection">
+          <h1 id="hero-title" ref={title}>Experiências digitais, do fluxo à interface.</h1>
+          <span className="dz-frame" aria-hidden="true"><i /><i /><i /><i /><b>{size}</b></span>
+        </div>
+        <p className="hero-lead">
+          Atuo em UX/UI e também em desenvolvimento. Nos produtos apresentados aqui — apps, TV e painéis web —, trabalhei de ponta a ponta, principalmente na experiência e na interface.
+        </p>
+        <div className="actions">
+          <a className="button button-primary" href="#projetos">Ver projetos <span aria-hidden="true">↗</span></a>
+          <a className="button button-secondary" href="#contato">Entrar em contato</a>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <button
-          onClick={() => scrollToSection("#about")}
-          className="flex flex-col items-center gap-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors group"
-        >
-          <ChevronDown className="w-6 h-6 animate-bounce" />
-        </button>
+      <div className="hero-aside" aria-label="Resumo do case em destaque">
+        <span className="aside-index">01 / CASE EM DESTAQUE</span>
+        <strong>TMW Connect</strong>
+        <p>Autoatendimento mobile para clientes de internet: faturas, contratos e suporte.</p>
+        <a href="./case-tmw-connect.html">Ler o case TMW Connect <span aria-hidden="true">↗</span></a>
       </div>
+      <div className="dz-hero-frames" aria-hidden="true">
+        {frames.map((frame, index) => (
+          <figure key={frame.src} className="dz-device" style={{ "--speed": frame.speed, "--depth": frame.depth, "--i": index } as CSSProperties}>
+            <figcaption>{frame.label}</figcaption>
+            <img src={frame.src} alt="" width={320} height={680} decoding="async" />
+          </figure>
+        ))}
+      </div>
+      <FigmaCursor className="dz-cursor-hero" />
     </section>
   );
 }
